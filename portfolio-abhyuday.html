@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhyuday Pratap Singh - Portfolio</title>
+    <style>
+        /* Base styles */
+        :root {
+            --color-bg: #1e1b4b;
+            --color-bg-secondary: rgba(49, 46, 129, 0.5);
+            --color-text: #ffffff;
+            --color-text-secondary: #a5b4fc;
+            --color-accent: #8b5cf6;
+            --color-card: rgba(30, 27, 75, 0.5);
+            --color-card-hover: rgba(30, 27, 75, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(to bottom right, #312e81, #6b21a8);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        h1, h2, h3 {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(to right, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-section {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 256px;
+            height: 256px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--color-accent);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            color: var(--color-text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--color-accent);
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-text h2 {
+            color: var(--color-text-secondary);
+            font-size: 1.5rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 4rem 0;
+            background: var(--color-bg-secondary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .service-card {
+            background: var(--color-card);
+            padding: 2rem;
+            border-radius: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .service-card:hover {
+            background: var(--color-card-hover);
+        }
+
+        .service-icon {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--color-accent);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 4rem 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .skill-card {
+            background: var(--color-card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .skill-card:hover {
+            background: var(--color-card-hover);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-icon {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--color-accent);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .skill-card ul {
+            list-style: none;
+            color: var(--color-text-secondary);
+        }
+
+        .skill-card li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+        }
+        .portfolio {
+    width: 100%;
+    padding: 4rem 0;
+}
+
+.portfolio h2 {
+    color: var(--color-text);
+    margin-bottom: 2rem;
+    text-align: center; /* Center align the heading */
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 2rem; /* Spacing between cards */
+}
+
+.portfolio-card {
+    background: var(--color-card);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-card img {
+    width: 100%; /* Ensure image scales with card width */
+    height: 400px; /* Set consistent height */
+    object-fit: cover; /* Prevent distortion */
+    display: block; /* Removes extra space under image */
+}
+
+.portfolio-card h3 {
+    padding: 1rem;
+    font-size: 1.25rem;
+    color: var(--color-accent);
+    text-align: center; /* Center-align the text */
+}
+
+.portfolio-card p {
+    padding: 0 1rem 1rem;
+    color: var(--color-text-secondary);
+    text-align: center; /* Center-align the description */
+}
+
+        /* Software Section */
+        .software {
+            padding: 4rem 0;
+        }
+
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .software-card {
+            background: var(--color-card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .software-card:hover {
+            background: var(--color-card-hover);
+            transform: translateY(-5px);
+        }
+
+        .software-icon {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--color-accent);
+            padding: 1rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .software-card:hover .software-icon {
+            color: var(--color-text);
+            background: var(--color-accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-bg-secondary);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--color-text-secondary);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1, .hero-text h2 {
+                text-align: center;
+            }
+
+            .services-grid, .skills-grid, .software-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <div class="profile-section">
+                    <img src="abhyuday.jpeg" alt="Abhyuday Pratap Singh" class="profile-image">
+                    <div class="social-links">
+                        <a href="https://fiverr.com/wow_abhyuday" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <img src="image.svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-7a6 6 0 0 0-6 6v7"/><path d="M14 7V3"/><path d="M14 11v-1"/></svg>
+                        </a>
+                        <a href="https://fiverr.com/wow_abhyuday" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <img src="image2.svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-7a6 6 0 0 0-6 6v7"/><path d="M14 7V3"/><path d="M14 11v-1"/></svg>
+                        </a>
+                        <a href="https://x.com/abhyuddayy" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="http://linkedin.com/in/abhyudday/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/@memaker" target="_blank" rel="noopener noreferrer" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-text">
+                    <h1>Abhyuday Pratap Singh</h1>
+                    <h2>2D Animator & Digital Artist</h2>
+                    <p>Passionate about bringing stories to life through animation and digital artistry. Specializing in character animation, motion graphics, and visual storytelling.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Services Section -->
+        <div class="services">
+            <h2>Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </div>
+                    <h3>2D Animation</h3>
+                    <p>Custom character animation, explainer videos, and animated logos that bring your ideas to life.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" x2="7" y1="2" y2="22"/><line x1="17" x2="17" y1="2" y2="22"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="2" x2="7" y1="7" y2="7"/><line x1="2" x2="7" y1="17" y2="17"/><line x1="17" x2="22" y1="17" y2="17"/><line x1="17" x2="22" y1="7" y2="7"/></svg>
+                    </div>
+                    <h3>Motion Graphics</h3>
+                    <p>Eye-catching motion graphics for social media, presentations, and marketing materials.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    </div>
+                    <h3>Digital Illustration</h3>
+                    <p>Unique digital artwork, character designs, and illustrations for various purposes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio">
+            <h2>Work Samples</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <img src="1.gif" alt="Project 1">
+                    <h3>IKIGAI animation</h3>
+                    <p>Reel animation for Solana-based memecoin collection named IKIGAI. This collection reached a $20mn+ market cap in its prime.</p>
+                </div>
+                <div class="portfolio-card">
+                    <img src="2.gif" alt="Project 2">
+                    <h3>$CHEEKS animated reel</h3>
+                    <p>TikTok animation for a well-known memecoin in the Solana space, $CHEEKS, with over a $60mn+ market cap at ATH.</p>
+                </div>
+                <div class="portfolio-card">
+                    <img src="blue pepe_01.mp4" alt="Project 3">
+                    <h3>$BLUEPEPE Animation</h3>
+                    <p>Unique animation designed for a top-tier Solana-based NFT project.</p>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Skills Section -->
+        <div class="skills">
+            <h2>Animation Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                        </div>
+                        <h3>Character Animation</h3>
+                    </div>
+                    <ul>
+                        <li>Character Design</li>
+                        <li>Frame by Frame</li>
+                        <li>Rigging</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" x2="7" y1="2" y2="22"/><line x1="17" x2="17" y1="2" y2="22"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="2" x2="7" y1="7" y2="7"/><line x1="2" x2="7" y1="17" y2="17"/><line x1="17" x2="22" y1="17" y2="17"/><line x1="17" x2="22" y1="7" y2="7"/></svg>
+                        </div>
+                        <h3>Motion Graphics</h3>
+                    </div>
+                    <ul>
+                        <li>Visual Effects</li>
+                        <li>Title Animation</li>
+                        <li>Logo Animation</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                        </div>
+                        <h3>Digital Art</h3>
+                    </div>
+                    <ul>
+                        <li>Concept Art</li>
+                        <li>Background Design</li>
+                        <li>Color Theory</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Software Proficiency -->
+        <div class="software">
+            <h2>Software Proficiency</h2>
+            <div class="software-grid">
+                <div class="software-card">
+                    <div class="software-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    </div>
+                    <span>Adobe Animate</span>
+                </div>
+                <div class="software-card">
+                    <div class="software-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.91a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+                    </div>
+                    <span>After Effects</span>
+                </div>
+                <div class="software-card">
+                    <div class="software-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg>
+                    </div>
+                    <span>Photoshop</span>
+                </div>
+                <div class="software-card">
+                    <div class="software-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+                    </div>
+                    <span>Illustrator</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 Abhyuday Pratap Singh. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
