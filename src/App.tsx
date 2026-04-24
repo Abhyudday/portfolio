@@ -189,6 +189,19 @@ export default function App() {
           </div>
         </section>
 
+        <section id="about" className="works-intro card">
+          <div className="section-head section-head--stack">
+            <p className="eyebrow">
+              <span className="dot" /> About
+            </p>
+            <h2 className="section-title">My works</h2>
+            <p className="section-desc">
+              Purposeful interfaces and solid engineering across Web3, bots, and growth. Open any project below for
+              case studies, links, and live demos.
+            </p>
+          </div>
+        </section>
+
         <section id="experience" className="experience card">
           <div className="section-head section-head--stack">
             <p className="eyebrow">
@@ -201,19 +214,6 @@ export default function App() {
             </p>
           </div>
           <ExperienceTimeline items={EXPERIENCE} />
-        </section>
-
-        <section id="about" className="works-intro card">
-          <div className="section-head section-head--stack">
-            <p className="eyebrow">
-              <span className="dot" /> About
-            </p>
-            <h2 className="section-title">My works</h2>
-            <p className="section-desc">
-              Purposeful interfaces and solid engineering across Web3, bots, and growth. Open any project below for
-              case studies, links, and live demos.
-            </p>
-          </div>
         </section>
 
         <SkillsSection />

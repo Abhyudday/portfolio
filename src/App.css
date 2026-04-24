@@ -204,15 +204,19 @@
 
 .hero__grid {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 32px;
   align-items: center;
 }
 
 @media (max-width: 768px) {
   .hero__grid {
-    grid-template-columns: 1fr;
+    gap: 16px 20px;
   }
+}
+
+.hero__copy {
+  min-width: 0;
 }
 
 .hero__title {
@@ -289,12 +293,6 @@
   justify-self: end;
 }
 
-@media (max-width: 768px) {
-  .hero__avatar-wrap {
-    justify-self: start;
-  }
-}
-
 .hero__avatar {
   width: min(200px, 42vw);
   height: min(200px, 42vw);
@@ -319,8 +317,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
-  filter: drop-shadow(0 10px 28px var(--accent-orange-glow));
+  border-radius: 50%;
+  /* Redundant with parent overflow; ensures a circular paint even if clipping glitches. */
+  clip-path: circle(50% at 50% 50%);
 }
 
 [data-theme='light'] .hero__avatar {
