@@ -2,22 +2,13 @@ export type ExperienceItem = {
   id: string
   title: string
   company: string
-  /** Short italic line under the title (e.g. “Web3 creative agency”) */
+  /** Short qualifier under the title */
   tagline: string
   dateRange: string
-  duration?: string
   location: string
   description: string[]
-  skills?: string[]
-  logoUrl?: string
-  domain?: string
-  companyUrl?: string
-  /** Optional scale for logo in timeline (e.g. 1.2) */
-  logoZoom?: number
-  accent: string
-  /** Primary highlight stat shown as a mono chip (e.g. “$9M+ volume”) */
+  /** Primary highlight, set in mono beside the role */
   stat?: string
-  /** Sorted newest-first */
 }
 
 export const EXPERIENCE: ExperienceItem[] = [
@@ -25,32 +16,27 @@ export const EXPERIENCE: ExperienceItem[] = [
     id: 'gpcm',
     title: 'Software Development Engineer',
     company: 'GPCM',
-    tagline: 'Crypto fintech · Dubai, UAE',
-    dateRange: 'Jun 2025 – Present',
+    tagline: 'Crypto fintech, Dubai',
+    dateRange: 'Jun 2025 — Present',
     location: 'Remote',
     description: [
-      'Single-handedly built and maintained a live production fintech application serving 20,000+ users and $2.2M+ in transaction volume.',
-      'Owned the product end-to-end — architecture, development, deployment, and maintenance — balancing technical execution with business priorities to keep it stable, secure, and scalable.',
+      'Built and maintained a live production fintech application single-handedly, serving 20,000+ users and $2.2M+ in transaction volume.',
+      'Owned the product end to end — architecture, development, deployment, maintenance — balancing technical execution against business priorities to keep it stable, secure, and scalable.',
     ],
-    domain: 'gpcm.com',
-    accent: '#14f195',
-    stat: '$2.2M+ volume',
+    stat: '$2.2M+ processed',
   },
   {
     id: 'dsignrz',
     title: 'Founder',
     company: 'DSIGNRZ',
     tagline: 'Web3 creative agency',
-    dateRange: 'Mar 2021 – Present',
-    location: 'Noida, India',
+    dateRange: 'Mar 2021 — Present',
+    location: 'Noida',
     description: [
-      'Founded and scaled a creative agency to 200+ delivered projects as sole decision-maker across hiring, client negotiation, and delivery — building cross-functional teams and driving structured problem-solving under ambiguity.',
-      'Maintained a 4.6/5 client satisfaction rating by building structured account-management processes that drove repeat business.',
-      'Grew international client share to 48% of business, delivering projects for global crypto platforms including pump.fun, validators.com, cets.wtf, and cryptoclass.link.',
+      'Scaled a creative agency to 200+ delivered projects as sole decision-maker across hiring, client negotiation, and delivery.',
+      'Held a 4.6/5 client satisfaction rating by building structured account-management processes that drove repeat business.',
+      'Grew international client share to 48% of business, delivering for crypto platforms including pump.fun, validators.com, cets.wtf, and cryptoclass.link.',
     ],
-    domain: 'dsignrz.com',
-    logoUrl: '/logos/dsignrs.jpg',
-    accent: '#9945ff',
     stat: '200+ projects',
   },
   {
@@ -58,47 +44,37 @@ export const EXPERIENCE: ExperienceItem[] = [
     title: 'Business Developer',
     company: 'Tradewiz',
     tagline: 'Influencer growth and partnerships',
-    dateRange: 'Sep 2024 – Jun 2025',
+    dateRange: 'Sep 2024 — Jun 2025',
     location: 'Remote',
     description: [
       'Closed 40+ influencer marketing partnerships, generating $4M+ in trading volume through direct relationship management.',
-      'Onboarded $5M+ in additional trading volume by designing and executing targeted growth campaigns.',
-      'Built and managed relationships with crypto influencers (1.4M+ combined followers) and partnered cross-functionally with marketing and product teams.',
+      'Onboarded $5M+ in additional trading volume by designing and running targeted growth campaigns.',
+      'Managed relationships with crypto influencers totalling 1.4M+ followers, working across marketing and product.',
     ],
-    domain: 'tradewiz.com',
-    logoUrl: '/logos/tradewiz.jpg',
-    accent: '#38bdf8',
-    stat: '$4M+ volume',
+    stat: '$9M+ volume',
   },
 ]
 
-/** Additional experience — smaller cards, not in the main timeline */
+/** Secondary track — set as a compact two-column list. */
 export const ADDITIONAL_EXPERIENCE: ExperienceItem[] = [
   {
     id: 'youtube',
     title: 'YouTube Creator',
-    company: 'Crypto & Web3 Content',
-    tagline: '5,000+ subscribers · 20+ brand integrations',
+    company: 'Crypto and Web3',
+    tagline: 'Channel built to 5,000+ subscribers',
     dateRange: 'Ongoing',
     location: 'Remote',
-    description: [
-      'Built and scaled a crypto-focused YouTube channel to 5,000+ subscribers.',
-      'Secured 20+ brand integration deals with crypto and Web3 companies.',
-    ],
-    accent: '#f43f5e',
+    description: ['Secured 20+ brand integration deals with crypto and Web3 companies.'],
     stat: '5K+ subs',
   },
   {
     id: 'freelance',
-    title: 'Freelancer',
-    company: 'Independent Client Work',
-    tagline: 'Web, design & Web3 development',
+    title: 'Freelance',
+    company: 'Independent client work',
+    tagline: 'Web, design, and Web3 development',
     dateRange: 'Ongoing',
     location: 'Global',
-    description: [
-      'Delivered 500+ projects across 350+ clients spanning web, design, and Web3 development.',
-    ],
-    accent: '#fbbf24',
-    stat: '500+ projects',
+    description: ['Delivered 500+ projects across 350+ clients.'],
+    stat: '350+ clients',
   },
 ]

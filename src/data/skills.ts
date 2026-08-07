@@ -3,36 +3,28 @@ export type SkillGroup = {
   items: string[]
 }
 
-/** Ordered by emphasis: technical stack first, then business, then interests */
+/** Rendered as key/value rows — order sets visual priority. */
 export const SKILL_GROUPS: SkillGroup[] = [
   {
-    title: 'Technical',
-    items: [
-      'JavaScript',
-      'TypeScript',
-      'Python',
-      'Rust',
-      'Solidity',
-      'PostgreSQL',
-      'Git',
-      'Docker',
-      'Tatum API',
-      'Birdeye',
-      'Solscan',
-    ],
+    title: 'Languages',
+    items: ['TypeScript', 'JavaScript', 'Python', 'Rust', 'Solidity'],
+  },
+  {
+    title: 'Infra',
+    items: ['PostgreSQL', 'Docker', 'Git'],
+  },
+  {
+    title: 'Web3',
+    items: ['Solana', 'Tatum API', 'Birdeye', 'Solscan'],
   },
   {
     title: 'Business',
     items: [
-      'Strategic Partnerships',
-      'Business Development',
-      'Growth Strategy',
-      'Client & Stakeholder Management',
+      'Strategic partnerships',
+      'Business development',
+      'Growth strategy',
+      'Stakeholder management',
       'Negotiation',
     ],
-  },
-  {
-    title: 'Interests',
-    items: ['Swimming', 'Music'],
   },
 ]

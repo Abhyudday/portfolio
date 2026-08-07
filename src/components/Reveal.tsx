@@ -10,16 +10,12 @@ type Props = {
 /** Fades + lifts children into view once, using IntersectionObserver. */
 export function Reveal({ children, delay = 0, className = '' }: Props) {
   const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
+  // Environment check is stable per session — content just shows if IO is missing.
+  const [visible, setVisible] = useState(() => typeof IntersectionObserver === 'undefined')
 
   useEffect(() => {
     const el = ref.current
-    if (!el) return
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setVisible(true)
-      return
-    }
+    if (!el || visible) return
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -33,6 +29,7 @@ export function Reveal({ children, delay = 0, className = '' }: Props) {
 
     io.observe(el)
     return () => io.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
