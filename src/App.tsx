@@ -1,263 +1,124 @@
 import { useCallback, useEffect, useState } from 'react'
-import { SITE, SOCIAL } from './config'
+import { SITE } from './config'
 import { WORKS } from './data/works'
-import { Grain } from './components/Grain'
+import { Ambient } from './components/Ambient'
+import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
-import { Figures } from './components/Figures'
-import { Roles } from './components/Roles'
-import { Skills } from './components/Skills'
+import { Stats } from './components/Stats'
+import { Section } from './components/Section'
+import { About } from './components/About'
+import { Record } from './components/Record'
+import { Missions } from './components/Missions'
+import { Briefing } from './components/Briefing'
+import { Loadout } from './components/Loadout'
 import { Education } from './components/Education'
-import { ProjectPanel } from './components/ProjectPanel'
+import { Footer } from './components/Footer'
+import { Cheats } from './components/Cheats'
 import { Reveal } from './components/Reveal'
-import { IconArrowUpRight } from './components/Icons'
+import { IconArrowRight, IconMail } from './components/Icons'
 import './App.css'
 
-const NAV = [
-  { id: 'work', label: 'work', target: 'experience' },
-  { id: 'projects', label: 'projects', target: 'projects' },
-  { id: 'about', label: 'about', target: 'about' },
-  { id: 'contact', label: 'contact', target: 'contact' },
-] as const
-
 export default function App() {
-  const [toast, setToast] = useState<string | null>(null)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [active, setActive] = useState<string>('')
+  const [cheats, setCheats] = useState(false)
 
-  /** Mark the nav item whose section is currently in view. */
+  /** ⌘K / Ctrl+K toggles the cheat-code palette. */
   useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return
-
-    const targets = NAV.map((n) => document.getElementById(n.target)).filter(
-      (el): el is HTMLElement => el !== null,
-    )
-    if (!targets.length) return
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        const top = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (!top) return
-        const hit = NAV.find((n) => n.target === top.target.id)
-        if (hit) setActive(hit.id)
-      },
-      { rootMargin: '-25% 0px -60% 0px', threshold: [0, 0.2, 0.5] },
-    )
-
-    targets.forEach((el) => io.observe(el))
-    return () => io.disconnect()
-  }, [])
-
-  const copyEmail = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(SITE.email)
-      setToast('Email copied')
-    } catch {
-      setToast(SITE.email)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setCheats((v) => !v)
+      }
     }
-    window.setTimeout(() => setToast(null), 2000)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  const closePanel = useCallback(() => setOpenIndex(null), [])
+  const closeBriefing = useCallback(() => setOpenIndex(null), [])
+  const closeCheats = useCallback(() => setCheats(false), [])
+  const openCheats = useCallback(() => setCheats(true), [])
 
   return (
-    <div className="page">
-      <Grain />
+    <>
+      <Ambient />
 
-      {toast ? (
-        <div className="toast" role="status">
-          {toast}
-        </div>
-      ) : null}
+      <div className="page">
+        <Nav onCheat={openCheats} />
 
-      <ProjectPanel
-        project={openIndex === null ? null : (WORKS[openIndex] ?? null)}
-        index={openIndex ?? 0}
-        onClose={closePanel}
-      />
-
-      <div className="wrap">
-        <nav className="nav" aria-label="Primary">
-          <a className="nav__mark" href="#home">
-            Abhyuday<em>.site</em>
-          </a>
-
-          <div className="nav__links">
-            {NAV.map((n) => (
-              <a
-                key={n.id}
-                className={`nav__link ${active === n.id ? 'is-active' : ''}`}
-                href={`#${n.target}`}
-                aria-current={active === n.id ? 'true' : undefined}
-              >
-                {n.label}
-              </a>
-            ))}
-          </div>
-
-          <a
-            className="nav__cta"
-            href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
-          >
-            Get in touch
-          </a>
-        </nav>
-
-        <Hero onCopyEmail={copyEmail} />
+        <Hero />
 
         <Reveal>
-          <Figures />
+          <Stats />
         </Reveal>
 
         <Reveal>
-          <section id="experience" className="section">
-            <p className="slabel">
-              <span className="slabel__n">01</span>
-              <span>Selected work</span>
-            </p>
-            <div>
-              <Roles />
-            </div>
-          </section>
+          <Section id="about" no="01" title="The bio" note="Who you are dealing with">
+            <About />
+          </Section>
         </Reveal>
 
         <Reveal>
-          <section id="projects" className="section">
-            <p className="slabel">
-              <span className="slabel__n">02</span>
-              <span>Projects</span>
-            </p>
-            <div>
-              <ul className="projects">
-                {WORKS.map((p, i) => (
-                  <li key={p.id}>
-                    <button
-                      type="button"
-                      className="project"
-                      onClick={() => setOpenIndex(i)}
-                      aria-haspopup="dialog"
-                    >
-                      <span className="project__n">{String(i + 1).padStart(2, '0')}</span>
-                      <span>
-                        <span className="project__name">{p.name}</span>
-                        <span className="project__sub">{p.subtitle}</span>
-                      </span>
-                      <span className="project__right">
-                        <span>{p.year}</span>
-                        <IconArrowUpRight className="project__arrow" size={15} />
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          <Section id="record" no="02" title="Rap sheet" note="Roles on record">
+            <Record />
+          </Section>
         </Reveal>
 
         <Reveal>
-          <section id="about" className="section">
-            <p className="slabel">
-              <span className="slabel__n">03</span>
-              <span>Capability</span>
-            </p>
-            <div>
-              <h2 className="h2">
-                A first-principles builder who <em>ships and sells</em>.
-              </h2>
-              <p className="body" style={{ marginTop: 22 }}>
-                I have scaled a venture from zero, driven revenue through strategic partnerships,
-                and executed end to end across product, operations, and growth. Most of my work
-                sits where engineering meets business development — writing the code and closing
-                the deal are the same job when you are the one accountable for the outcome.
+          <Section id="missions" no="03" title="Missions" note={`${WORKS.length} completed`}>
+            <Missions onOpen={setOpenIndex} />
+          </Section>
+        </Reveal>
+
+        <Reveal>
+          <Section id="loadout" no="04" title="Loadout" note="Tools of the trade">
+            <Loadout />
+          </Section>
+        </Reveal>
+
+        <Reveal>
+          <Section id="education" no="05" title="Training" note="Where it started">
+            <Education />
+          </Section>
+        </Reveal>
+
+        <Reveal>
+          <Section id="contact" no="06" title="Safehouse" note="Open for work">
+            <div className="contact">
+              <p className="contact__kicker">Available for new missions</p>
+              <p className="contact__mark">
+                Got something worth <em>building</em>?
               </p>
-              <div style={{ marginTop: 40 }}>
-                <Skills />
+              <p className="contact__sub">
+                Product work, Web3 builds, or partnerships — send the brief and I will tell you
+                straight whether I am the right person for it.
+              </p>
+              <div className="contact__row">
+                <a
+                  className="btn btn--primary"
+                  href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
+                >
+                  <IconMail size={14} />
+                  {SITE.email}
+                </a>
+                <a className="btn btn--ghost" href={SITE.github} target="_blank" rel="noreferrer">
+                  See the code
+                  <IconArrowRight />
+                </a>
               </div>
             </div>
-          </section>
+          </Section>
         </Reveal>
 
-        <Reveal>
-          <section id="education" className="section">
-            <p className="slabel">
-              <span className="slabel__n">04</span>
-              <span>Education</span>
-            </p>
-            <div>
-              <Education />
-            </div>
-          </section>
-        </Reveal>
-
-        <Reveal>
-          <section id="contact" className="section">
-            <p className="slabel">
-              <span className="slabel__n">05</span>
-              <span>Contact</span>
-            </p>
-            <div>
-              <h2 className="h2" style={{ marginBottom: 26 }}>
-                Have something worth <em>building</em>?
-              </h2>
-              <a className="contact__mail" href={`mailto:${SITE.email}`}>
-                {SITE.email}
-              </a>
-
-              <dl className="contact__rows">
-                <div className="contact__row">
-                  <dt>Based in</dt>
-                  <dd>{SITE.location}</dd>
-                </div>
-                <div className="contact__row">
-                  <dt>GitHub</dt>
-                  <dd>
-                    <a href={SITE.github} target="_blank" rel="noreferrer">
-                      @abhyudday
-                    </a>
-                  </dd>
-                </div>
-                <div className="contact__row">
-                  <dt>LinkedIn</dt>
-                  <dd>
-                    <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer">
-                      in/abhyudday
-                    </a>
-                  </dd>
-                </div>
-                <div className="contact__row">
-                  <dt>X</dt>
-                  <dd>
-                    <a href={SOCIAL.x} target="_blank" rel="noreferrer">
-                      @abhyuddayy
-                    </a>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </section>
-        </Reveal>
-
-        <footer className="footer">
-          <span>
-            © {SITE.year} {SITE.name}
-          </span>
-          <div className="footer__social">
-            <a href={SITE.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a href={SOCIAL.x} target="_blank" rel="noreferrer">
-              X
-            </a>
-            <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-            <a href={SOCIAL.instagram} target="_blank" rel="noreferrer">
-              Instagram
-            </a>
-          </div>
-        </footer>
+        <Footer />
       </div>
-    </div>
+
+      <Briefing
+        project={openIndex === null ? null : (WORKS[openIndex] ?? null)}
+        index={openIndex ?? 0}
+        onClose={closeBriefing}
+      />
+
+      {cheats ? <Cheats onClose={closeCheats} /> : null}
+    </>
   )
 }

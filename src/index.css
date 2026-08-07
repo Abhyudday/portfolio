@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 *,
 *::before,
@@ -7,31 +7,40 @@
 }
 
 :root {
-  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  /* Anton stands in for the condensed poster weight of the GTA wordmark */
+  --font-display: 'Anton', 'Haettenschweiler', 'Arial Narrow', sans-serif;
   --font-sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* Near-black with a hint of warmth — reads less synthetic than pure blue-black */
-  --bg: #0b0b0c;
-  --bg-2: #101011;
-  --ink: #ecebe7;
-  --ink-2: #9a9892;
-  --ink-3: #63615c;
-  --rule: rgba(236, 235, 231, 0.11);
-  --rule-2: rgba(236, 235, 231, 0.2);
+  /* Vice City night: deep violet-black, not neutral black */
+  --bg: #08040f;
+  --bg-2: #0f0719;
+  --panel: #170d24;
+  --panel-2: #1e1230;
+  --ink: #fdf6ef;
+  --ink-2: #a596b4;
+  --ink-3: #6b5f7d;
+  --rule: rgba(253, 246, 239, 0.11);
+  --rule-2: rgba(253, 246, 239, 0.22);
 
-  /* One accent, used sparingly */
-  --accent: #cdfa50;
+  /* Sunset spectrum — pink and orange carry the brand, teal is the cool counterweight */
+  --pink: #ff2e7e;
+  --orange: #ff8f2e;
+  --teal: #1fe0cc;
+  --cash: #86c34a;
+  --gold: #ffc233;
+  --violet: #7b5cff;
 
   --measure: 62ch;
-  --gutter: clamp(20px, 5vw, 76px);
+  --gutter: clamp(18px, 4.5vw, 68px);
+  --hud-radius: 3px;
 
   color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 84px;
+  scroll-padding-top: 92px;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -46,6 +55,7 @@ body {
   font-feature-settings: 'kern' 1, 'liga' 1;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 #root {
@@ -57,9 +67,12 @@ body {
 h1,
 h2,
 h3,
+h4,
 p,
 ul,
 ol,
+dl,
+dd,
 figure {
   margin: 0;
   padding: 0;
@@ -75,11 +88,11 @@ button {
   border: 0;
   padding: 0;
   cursor: pointer;
+  font: inherit;
+  color: inherit;
 }
 
-button,
-input,
-textarea {
+input {
   font: inherit;
   color: inherit;
 }
@@ -89,30 +102,35 @@ a {
   text-decoration: none;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
 ::selection {
-  background: var(--accent);
-  color: #0b0b0c;
+  background: var(--pink);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--teal);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #26262a;
+  background: #3a2450;
   border: 3px solid var(--bg);
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #35353b;
+  background: var(--pink);
 }
 
 @media (prefers-reduced-motion: reduce) {

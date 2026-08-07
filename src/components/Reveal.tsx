@@ -35,7 +35,7 @@ export function Reveal({ children, delay = 0, className = '' }: Props) {
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? 'is-visible' : ''} ${className}`.trim()}
+      className={`rv ${visible ? 'is-in' : ''} ${className}`.trim()}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
