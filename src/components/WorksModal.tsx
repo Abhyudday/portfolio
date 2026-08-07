@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { WorkProject } from '../data/works'
-import { WorkBrandIcon } from './WorkBrandIcon'
-import { IconX, IconArrowRight } from './Icons'
+import { IconArrowUpRight, IconClose } from './Icons'
 
 type Props = {
   project: WorkProject | null
@@ -18,7 +17,6 @@ function linkLabel(url: string) {
 }
 
 export function WorksModal({ project, onClose }: Props) {
-  const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -40,56 +38,55 @@ export function WorksModal({ project, onClose }: Props) {
   const titleId = `project-modal-${project.id}`
 
   return (
-    <div className="modal-root" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal-panel modal-panel--project" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby={titleId}>
-        <div className="modal-head modal-head--project">
+    <div
+      className="modal-root"
+      role="presentation"
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div
+        className="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        data-hue={project.hue}
+      >
+        <div className="modal-head">
           <div>
-            <p className="eyebrow">
-              <span className="dot" /> Project
+            <p className="modal-eyebrow">
+              <span style={{ color: 'var(--green)' }}>//</span> project
             </p>
             <h2 id={titleId} className="modal-title">
               {project.name}
             </h2>
             <p className="modal-sub">{project.subtitle}</p>
           </div>
-          <button ref={closeRef} type="button" className="icon-btn modal-close" onClick={onClose} aria-label="Close project">
-            <IconX />
+          <button
+            ref={closeRef}
+            type="button"
+            className="icon-btn"
+            onClick={onClose}
+            aria-label="Close project"
+          >
+            <IconClose />
           </button>
         </div>
 
-        <div className="modal-body modal-body--project">
-          <WorkDetail project={project} />
-        </div>
-      </div>
-    </div>
-  )
-}
+        <div className="modal-body">
+          <div className="modal-meta">
+            <MetaRow label="Platform" value={project.platform} />
+            <MetaRow label="Link" value={linkLabel(project.url)} />
+            {project.metric ? <MetaRow label="Highlight" value={project.metric} /> : null}
+          </div>
 
-function WorkDetail({ project: p }: { project: WorkProject }) {
-  return (
-    <article className="work-detail">
-      <div className="work-detail__meta card-inset">
-        <MetaRow label="Platform" value={p.platform} />
-        <MetaRow label="Link" value={linkLabel(p.url)} />
-      </div>
+          <p className="modal-desc">{project.description}</p>
 
-      <div className="work-detail__hero">
-        <WorkBrandIcon emoji={p.emoji} size={56} />
-        <div>
-          <p className="work-detail__desc">{p.description}</p>
-          <a className="btn btn-primary" href={p.url} target="_blank" rel="noreferrer">
-            {p.ctaLabel}
-            <IconArrowRight />
+          <a className="btn btn--primary" href={project.url} target="_blank" rel="noreferrer">
+            {project.ctaLabel}
+            <IconArrowUpRight />
           </a>
         </div>
       </div>
-
-      <div className="work-detail__gallery" aria-label="Project preview placeholders">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="gallery-tile" />
-        ))}
-      </div>
-    </article>
+    </div>
   )
 }
 

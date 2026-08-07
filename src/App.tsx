@@ -3,47 +3,75 @@ import { SITE, SOCIAL } from './config'
 import { WORKS } from './data/works'
 import { EXPERIENCE } from './data/experience'
 import {
-  IconBag,
+  IconArrowUpRight,
+  IconBriefcase,
   IconChevron,
-  IconCopy,
+  IconGitHub,
+  IconGlobe,
   IconHome,
-  IconMoon,
-  IconSun,
-  IconUser,
-  IconWorks,
+  IconInstagram,
+  IconLayers,
+  IconLinkedIn,
+  IconMail,
+  IconPhone,
+  IconTerminal,
+  IconX,
 } from './components/Icons'
-import { WorkBrandIcon } from './components/WorkBrandIcon'
-import { WorksModal } from './components/WorksModal'
-import { HireMenu } from './components/HireMenu'
+import { Background } from './components/Background'
+import { Hero } from './components/Hero'
+import { StatStrip } from './components/StatStrip'
+import { Marquee } from './components/Marquee'
+import { SectionHead } from './components/SectionHead'
+import { Reveal } from './components/Reveal'
 import { ExperienceTimeline } from './components/ExperienceTimeline'
+import { AdditionalExperience } from './components/AdditionalExperience'
+import { Education } from './components/Education'
 import { SkillsSection } from './components/SkillsSection'
-import avatarImg from './assets/avatar.png'
+import { WorksModal } from './components/WorksModal'
 import './App.css'
 
-type Theme = 'dark' | 'light'
+type NavId = 'home' | 'work' | 'projects' | 'contact'
+
+const NAV_ITEMS: { id: NavId; label: string; target: string; Icon: typeof IconHome }[] = [
+  { id: 'home', label: 'Home', target: 'home', Icon: IconHome },
+  { id: 'work', label: 'Work', target: 'experience', Icon: IconBriefcase },
+  { id: 'projects', label: 'Projects', target: 'projects', Icon: IconLayers },
+  { id: 'contact', label: 'Contact', target: 'contact', Icon: IconTerminal },
+]
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-function hireMailto() {
-  const q = `mailto:${encodeURIComponent(SITE.email)}?subject=${encodeURIComponent(SITE.hireSubject)}`
-  window.location.href = q
-}
-
 export default function App() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark'
-    return (localStorage.getItem('theme') as Theme) || 'dark'
-  })
   const [toast, setToast] = useState<string | null>(null)
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null)
-  const [navActive, setNavActive] = useState<'home' | 'about' | 'works' | 'experience'>('home')
+  const [navActive, setNavActive] = useState<NavId>('home')
 
+  /** Highlight the nav item for whichever section is currently in view. */
   useEffect(() => {
-    document.documentElement.dataset.theme = theme
-    localStorage.setItem('theme', theme)
-  }, [theme])
+    const sections = NAV_ITEMS.map((n) => ({
+      id: n.id,
+      el: document.getElementById(n.target),
+    })).filter((s): s is { id: NavId; el: HTMLElement } => s.el !== null)
+
+    if (!sections.length || typeof IntersectionObserver === 'undefined') return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (!visible) return
+        const match = sections.find((s) => s.el === visible.target)
+        if (match) setNavActive(match.id)
+      },
+      { rootMargin: '-30% 0px -55% 0px', threshold: [0, 0.25, 0.5] },
+    )
+
+    sections.forEach((s) => io.observe(s.el))
+    return () => io.disconnect()
+  }, [])
 
   const showToast = useCallback((msg: string) => {
     setToast(msg)
@@ -53,27 +81,23 @@ export default function App() {
   const copyEmail = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(SITE.email)
-      showToast('Email copied')
+      showToast('email copied')
     } catch {
-      showToast('Could not copy — email is in the button title')
+      showToast(SITE.email)
     }
   }, [showToast])
 
   const openProject = useCallback((projectId: string) => {
     setActiveProjectId(projectId)
-    setNavActive('works')
   }, [])
 
-  const closeProject = useCallback(() => {
-    setActiveProjectId(null)
-  }, [])
+  const closeProject = useCallback(() => setActiveProjectId(null), [])
 
-  const activeProject = activeProjectId ? (WORKS.find((w) => w.id === activeProjectId) ?? null) : null
+  const goToProjects = useCallback(() => scrollToId('projects'), [])
 
-  const goToProjects = useCallback(() => {
-    setNavActive('works')
-    scrollToId('projects')
-  }, [])
+  const activeProject = activeProjectId
+    ? (WORKS.find((w) => w.id === activeProjectId) ?? null)
+    : null
 
   const onSubmitContact = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -88,238 +112,292 @@ export default function App() {
 
   return (
     <div className="page">
-      {toast ? <div className="toast" role="status">{toast}</div> : null}
+      <Background />
+
+      {toast ? (
+        <div className="toast" role="status">
+          {toast}
+        </div>
+      ) : null}
 
       <WorksModal project={activeProject} onClose={closeProject} />
 
-      <header className="shell">
-        <nav className="nav card" aria-label="Primary">
-          <div className="nav__icons">
-            <button
-              type="button"
-              className={`icon-btn ${navActive === 'home' ? 'is-active' : ''}`}
-              aria-current={navActive === 'home' ? 'page' : undefined}
-              aria-label="Home"
-              onClick={() => {
-                setNavActive('home')
-                scrollToId('home')
-              }}
-            >
-              <IconHome />
-            </button>
-            <button
-              type="button"
-              className={`icon-btn ${navActive === 'about' ? 'is-active' : ''}`}
-              aria-label="About"
-              onClick={() => {
-                setNavActive('about')
-                scrollToId('about')
-              }}
-            >
-              <IconUser />
-            </button>
-            <button
-              type="button"
-              className={`icon-btn ${navActive === 'works' ? 'is-active' : ''}`}
-              aria-label="Works — jump to projects"
-              onClick={goToProjects}
-            >
-              <IconWorks />
-            </button>
-            <button
-              type="button"
-              className={`icon-btn ${navActive === 'experience' ? 'is-active' : ''}`}
-              aria-label="Experience — work history"
-              onClick={() => {
-                setNavActive('experience')
-                scrollToId('experience')
-              }}
-            >
-              <IconBag />
-            </button>
+      <div className="shell">
+        <nav className="nav" aria-label="Primary">
+          <div className="nav__brand">
+            <span className="nav__brand-dot" aria-hidden>
+              A
+            </span>
+            <span>
+              abhyuday<span className="nav__brand-mono">.site</span>
+            </span>
           </div>
-          <div className="nav__actions">
-            <button
-              type="button"
-              className="icon-btn"
-              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-              onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+
+          <div className="nav__links">
+            {NAV_ITEMS.map(({ id, label, target }) => (
+              <button
+                key={id}
+                type="button"
+                className={`nav__link ${navActive === id ? 'is-active' : ''}`}
+                aria-current={navActive === id ? 'page' : undefined}
+                aria-label={label}
+                onClick={() => {
+                  setNavActive(id)
+                  scrollToId(target)
+                }}
+              >
+                <span className="nav__link-indicator" aria-hidden />
+                <span className="nav__link-label">{label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="nav__right">
+            <a
+              className="btn btn--primary btn--mono"
+              href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
             >
-              {theme === 'dark' ? <IconSun /> : <IconMoon />}
-            </button>
-            <HireMenu onContactEmail={hireMailto} />
+              Hire me
+            </a>
           </div>
         </nav>
 
-        <section id="home" className="hero card">
-          <div className="hero__top">
-            <p className="eyebrow">
-              <span className="dot" /> {SITE.role}
+        <Hero onCopyEmail={copyEmail} onViewWork={goToProjects} />
+
+        <Reveal>
+          <StatStrip />
+        </Reveal>
+
+        <Reveal>
+          <section className="glass section" style={{ paddingBlock: 22 }}>
+            <p className="section__eyebrow" style={{ marginBottom: 16 }}>
+              <span className="slash">//</span> delivered for
             </p>
-            <span className="badge-available">
-              <span className="badge-available__dot" aria-hidden />
-              Available for work
-            </span>
-          </div>
-          <div className="hero__grid">
-            <div className="hero__copy">
-              <h1 className="hero__title">{SITE.headline}</h1>
-              <p className="hero__sub">
-                {SITE.role} from {SITE.location}. {SITE.bio}
-              </p>
-              <div className="hero__actions">
-                <HireMenu onContactEmail={hireMailto} variant="hero" />
-                <button type="button" className="btn btn-outline" onClick={copyEmail} title={SITE.email}>
-                  <IconCopy />
-                  Copy email
-                </button>
-              </div>
+            <Marquee />
+          </section>
+        </Reveal>
+
+        <Reveal>
+          <section id="about" className="glass section">
+            <SectionHead
+              eyebrow="about"
+              title="First-principles builder"
+              desc="Founder and business builder with hands-on experience scaling a venture from zero — driving revenue through strategic partnerships and executing end-to-end across product, operations, and growth. Generated $9M+ in trading volume through business development and campaign execution, and built a 200+ client global agency with a 4.6/5 satisfaction rating. Comfortable owning ambiguity in fast-paced environments."
+            />
+          </section>
+        </Reveal>
+
+        <Reveal>
+          <section id="experience" className="glass section">
+            <SectionHead
+              eyebrow="experience"
+              title="Where I've shipped"
+              desc="Production fintech, a founder-led Web3 studio, and crypto growth partnerships."
+            />
+            <div style={{ marginTop: 26 }}>
+              <ExperienceTimeline items={EXPERIENCE} />
             </div>
-            <div className="hero__avatar-wrap">
-              <div className="hero__avatar">
-                <img
-                  className="hero__avatar--img"
-                  src={avatarImg}
-                  alt="Illustrated avatar"
-                  width={400}
-                  height={400}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+            <AdditionalExperience />
+          </section>
+        </Reveal>
 
-        <section id="about" className="works-intro card">
-          <div className="section-head section-head--stack">
-            <p className="eyebrow">
-              <span className="dot" /> About
-            </p>
-            <h2 className="section-title">My works</h2>
-            <p className="section-desc">
-              Purposeful interfaces and solid engineering across Web3, bots, and growth. Open any project below for
-              case studies, links, and live demos.
-            </p>
-          </div>
-        </section>
+        <Reveal>
+          <SkillsSection />
+        </Reveal>
 
-        <section id="experience" className="experience card">
-          <div className="section-head section-head--stack">
-            <p className="eyebrow">
-              <span className="dot" /> Experience
-            </p>
-            <h2 className="section-title">Work history</h2>
-            <p className="section-desc">
-              Founder-led Web3 studio work, founding engineering on Telegram products, and business development in
-              crypto growth — with a résumé-style layout and timeline.
-            </p>
-          </div>
-          <ExperienceTimeline items={EXPERIENCE} />
-        </section>
-
-        <SkillsSection />
-
-        <section id="projects" className="projects-block card">
-          <div className="section-head">
-            <p className="eyebrow">
-              <span className="dot" /> Projects
-            </p>
-            <button type="button" className="link-arrow" onClick={goToProjects}>
-              View all →
-            </button>
-          </div>
-          <ul className="project-list">
-            {WORKS.map((p) => (
-              <li key={p.id}>
-                <button type="button" className="project-row" onClick={() => openProject(p.id)}>
-                  <WorkBrandIcon emoji={p.emoji} />
-                  <div className="project-row__text">
-                    <span className="project-row__name">{p.name}</span>
-                    <span className="project-row__sub">{p.subtitle}</span>
-                  </div>
-                  <IconChevron className="project-row__chev" />
+        <Reveal>
+          <section id="projects" className="glass section">
+            <SectionHead
+              eyebrow="projects"
+              title="Things I've built"
+              desc="Solana-native products — investing, trading, and bots."
+              action={
+                <button type="button" className="link-arrow" onClick={goToProjects}>
+                  {WORKS.length} projects
+                  <IconArrowUpRight size={14} />
                 </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+              }
+            />
+            <ul className="proj-grid">
+              {WORKS.map((p) => (
+                <li key={p.id}>
+                  <button
+                    type="button"
+                    className="proj-card"
+                    data-hue={p.hue}
+                    onClick={() => openProject(p.id)}
+                  >
+                    <span className="proj-icon" aria-hidden>
+                      {p.emoji}
+                    </span>
+                    <span className="proj-card__text">
+                      <span className="proj-card__name-row">
+                        <span className="proj-card__name">{p.name}</span>
+                        {p.metric ? <span className="proj-card__metric">{p.metric}</span> : null}
+                      </span>
+                      <span className="proj-card__sub">{p.subtitle}</span>
+                      <span className="proj-card__platform">{p.platform}</span>
+                    </span>
+                    <IconChevron className="proj-card__chev" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Reveal>
 
-        <section id="contact" className="contact card">
-          <div className="contact__head">
-            <p className="eyebrow">
-              <span className="dot" /> Hire me
-            </p>
-            <span className="badge-available">
-              <span className="badge-available__dot" aria-hidden />
-              Available for work
-            </span>
-          </div>
-          <h2 className="section-title">Project inquiry</h2>
-          <p className="section-desc contact__sub">
-            Have an idea and need engineering help? Send a note — your default mail app will open with this message.
-          </p>
-          <form className="contact-form" onSubmit={onSubmitContact}>
-            <div className="contact-form__row">
+        <Reveal>
+          <section id="education" className="glass section">
+            <SectionHead eyebrow="education" title="Studying while shipping" />
+            <Education />
+          </section>
+        </Reveal>
+
+        <Reveal>
+          <section id="contact" className="glass section">
+            <SectionHead
+              eyebrow="contact"
+              title="Let's build something"
+              desc="Have an idea and need engineering help? Send a note — your mail app will open with the message ready."
+            />
+
+            <div className="contact-rows">
+              <a className="contact-row" href={`mailto:${SITE.email}`}>
+                <span className="contact-row__icon">
+                  <IconMail size={17} />
+                </span>
+                <span className="contact-row__text">
+                  <span className="contact-row__label">Email</span>
+                  <span className="contact-row__value">{SITE.email}</span>
+                </span>
+              </a>
+              <a className="contact-row" href={`tel:${SITE.phone.replace(/\s/g, '')}`}>
+                <span className="contact-row__icon">
+                  <IconPhone size={17} />
+                </span>
+                <span className="contact-row__text">
+                  <span className="contact-row__label">Phone</span>
+                  <span className="contact-row__value">{SITE.phone}</span>
+                </span>
+              </a>
+              <a className="contact-row" href={SITE.github} target="_blank" rel="noreferrer">
+                <span className="contact-row__icon">
+                  <IconGitHub size={17} />
+                </span>
+                <span className="contact-row__text">
+                  <span className="contact-row__label">GitHub</span>
+                  <span className="contact-row__value">github.com/abhyudday</span>
+                </span>
+              </a>
+              <span className="contact-row">
+                <span className="contact-row__icon">
+                  <IconGlobe size={17} />
+                </span>
+                <span className="contact-row__text">
+                  <span className="contact-row__label">Location</span>
+                  <span className="contact-row__value">{SITE.location}</span>
+                </span>
+              </span>
+            </div>
+
+            <form className="contact-form" onSubmit={onSubmitContact}>
+              <div className="contact-form__row">
+                <label className="field">
+                  <span className="field__label">name</span>
+                  <input
+                    className="field__input"
+                    name="name"
+                    required
+                    autoComplete="name"
+                    placeholder="Your name"
+                  />
+                </label>
+                <label className="field">
+                  <span className="field__label">email</span>
+                  <input
+                    className="field__input"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                  />
+                </label>
+              </div>
               <label className="field">
-                <span className="field__label">Name</span>
-                <input className="field__input" name="name" required autoComplete="name" placeholder="Your name" />
-              </label>
-              <label className="field">
-                <span className="field__label">Email</span>
-                <input
-                  className="field__input"
-                  name="email"
-                  type="email"
+                <span className="field__label">message</span>
+                <textarea
+                  className="field__input field__textarea"
+                  name="message"
                   required
-                  autoComplete="email"
-                  placeholder="you@company.com"
+                  rows={4}
+                  placeholder="Tell me about the project, timeline, and stack."
                 />
               </label>
-            </div>
-            <label className="field">
-              <span className="field__label">Message</span>
-              <textarea className="field__input field__textarea" name="message" required rows={4} placeholder="Tell me about the project, timeline, and stack." />
-            </label>
-            <button type="submit" className="btn btn-submit">
-              Submit inquiry
-            </button>
-          </form>
-        </section>
+              <button type="submit" className="btn btn--primary btn--submit">
+                Send inquiry
+              </button>
+            </form>
+          </section>
+        </Reveal>
 
-        <section className="social card" aria-label="Social links">
-          <p className="eyebrow eyebrow--grow">
-            <span className="dot" /> Follow me
+        <section className="glass social" aria-label="Social links">
+          <p className="social__label">
+            <span style={{ color: 'var(--green)' }}>//</span> find me online
           </p>
           <div className="social__links">
+            <a
+              className="social__btn"
+              href={SITE.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+            >
+              <IconGitHub />
+            </a>
             <a className="social__btn" href={SOCIAL.x} target="_blank" rel="noreferrer" aria-label="X">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
+              <IconX />
             </a>
-            <a className="social__btn" href={SOCIAL.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg>
+            <a
+              className="social__btn"
+              href={SOCIAL.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
+              <IconLinkedIn />
             </a>
-            <a className="social__btn" href={SOCIAL.website} target="_blank" rel="noreferrer" aria-label="Website">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
-                <circle cx="12" cy="12" r="10" />
-                <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
-              </svg>
+            <a
+              className="social__btn"
+              href={SOCIAL.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+            >
+              <IconInstagram />
             </a>
-            <a className="social__btn" href={SOCIAL.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.65-1.85 3.4-1.85 3.64 0 4.31 2.4 4.31 5.52v6.22ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.11 20.45H3.56V9h3.55v11.45Z" />
-              </svg>
+            <a
+              className="social__btn"
+              href={SITE.website}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Website"
+            >
+              <IconGlobe />
             </a>
           </div>
         </section>
 
         <footer className="footer">
-          © {SITE.year} {SITE.name} — developer portfolio.
+          <span>
+            © {SITE.year} {SITE.name}
+          </span>
+          <span className="footer__built">
+            <span className="footer__pulse" aria-hidden />
+            built with react + typescript
+          </span>
         </footer>
-      </header>
+      </div>
     </div>
   )
 }

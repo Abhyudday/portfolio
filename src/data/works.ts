@@ -7,62 +7,50 @@ export type WorkProject = {
   url: string
   ctaLabel: string
   platform: string
+  /** Highlight metric shown as a mono chip (e.g. “717% weekly gains”) */
+  metric?: string
+  /** Theme key for the card gradient */
+  hue: 'emerald' | 'violet' | 'cyan' | 'amber' | 'rose'
 }
 
 export const WORKS: WorkProject[] = [
   {
-    id: 'solana-paper',
-    emoji: '🪙',
-    name: 'Solana Paper Trading Web App',
-    subtitle: 'Practice trading memecoins risk-free.',
+    id: 'pumpfunds',
+    emoji: '🚀',
+    name: 'PumpFunds',
+    subtitle: 'Solana memecoin investing platform',
     description:
-      'A web app for paper trading Solana memecoins using real-time data — perfect for honing your skills without risking real SOL.',
-    url: 'https://samran-frontend-production-b2ea.up.railway.app/',
-    ctaLabel: 'Try it',
-    platform: 'Web · Solana',
-  },
-  {
-    id: 'pumpfund',
-    emoji: '🎯',
-    name: 'PumpFund',
-    subtitle: 'Invest in Solana memecoin funds.',
-    description:
-      'PumpFunds lets you invest in curated Solana “Funds” that mirror elite wallets in real time — your wallet auto-executes their buys and sells in sub-seconds.',
+      'A web app offering expert-curated memecoin portfolios for beginner and traditional investors. Displays real-time performance, portfolio allocation, and historical returns — with top-performing funds reaching up to 717% weekly gains.',
     url: 'https://pumpfund.online/',
     ctaLabel: 'Try it',
     platform: 'Web · Solana',
-  },
-  {
-    id: 'soltap',
-    emoji: '💳',
-    name: 'Soltap',
-    subtitle: 'Use your smartphone as a Solana card.',
-    description:
-      'NFC-powered Solana payments — just tap, confirm, done. Built for speed, safety, and everyday use.',
-    url: 'https://github.com/Abhyudday/SolTap',
-    ctaLabel: 'View on GitHub',
-    platform: 'Mobile · NFC · Solana',
-  },
-  {
-    id: 'tip-anyone-bot',
-    emoji: '💰',
-    name: 'Tip Anyone Bot',
-    subtitle: 'Send SOL to anyone on Telegram.',
-    description:
-      'Just mention their @username in a group chat, and they can claim your tip instantly.',
-    url: 'https://t.me/TipSolanaBot',
-    ctaLabel: 'Open in Telegram',
-    platform: 'Telegram bot · Solana',
+    metric: '717% weekly gains',
+    hue: 'emerald',
   },
   {
     id: 'p2p-trading-bot',
     emoji: '🔁',
     name: 'P2P Trading Bot',
-    subtitle: 'Convert crypto to fiat with escrow.',
+    subtitle: 'Telegram crypto exchange',
     description:
-      'A peer-to-peer Telegram bot that helps users trade crypto safely using automated payment verification and escrow release.',
+      'A peer-to-peer Telegram bot enabling users to trade ETH, LTC, BTC, and SOL through automated payment verification and escrow release.',
     url: 'https://t.me/BuyBitP2Pbot',
-    ctaLabel: 'Try it out',
+    ctaLabel: 'Open in Telegram',
     platform: 'Telegram bot · P2P',
+    metric: '4 assets',
+    hue: 'violet',
+  },
+  {
+    id: 'paper-trading',
+    emoji: '📈',
+    name: 'Paper Trading Platform',
+    subtitle: 'Solana trading simulator',
+    description:
+      'A Telegram bot and web app offering real-time token data, live PnL tracking, and interactive price charts for risk-free Solana trading practice.',
+    url: 'https://samran-frontend-production-b2ea.up.railway.app/',
+    ctaLabel: 'Try it',
+    platform: 'Telegram + Web · Solana',
+    metric: 'Live PnL',
+    hue: 'cyan',
   },
 ]

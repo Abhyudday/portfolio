@@ -15,24 +15,26 @@ export type ExperienceItem = {
   /** Optional scale for logo in timeline (e.g. 1.2) */
   logoZoom?: number
   accent: string
+  /** Primary highlight stat shown as a mono chip (e.g. “$9M+ volume”) */
+  stat?: string
+  /** Sorted newest-first */
 }
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
-    id: 'polycop',
-    title: 'Customer Support Lead & Technical Writer',
-    company: 'Polycop',
-    tagline: 'Backed by Polymarket',
-    dateRange: 'Jan 2026 – Present',
+    id: 'gpcm',
+    title: 'Software Development Engineer',
+    company: 'GPCM',
+    tagline: 'Crypto fintech · Dubai, UAE',
+    dateRange: 'Jun 2025 – Present',
     location: 'Remote',
     description: [
-      'Lead customer support for a prediction-markets product: triage inbound issues, reproduce bugs with clear steps, and coordinate with engineering on fixes so users get timely, accurate answers.',
-      'Own technical documentation end to end — user-facing help articles, onboarding flows, and internal runbooks — turning complex trading and market mechanics into plain language.',
-      'Partner with product to keep docs and macros aligned with releases; reduce repeat tickets by improving self-serve content and maintaining a consistent support voice across channels.',
+      'Single-handedly built and maintained a live production fintech application serving 20,000+ users and $2.2M+ in transaction volume.',
+      'Owned the product end-to-end — architecture, development, deployment, and maintenance — balancing technical execution with business priorities to keep it stable, secure, and scalable.',
     ],
-    domain: 'polymarket.com',
-    logoUrl: '/logos/polycop.jpeg',
-    accent: '#6366f1',
+    domain: 'gpcm.com',
+    accent: '#14f195',
+    stat: '$2.2M+ volume',
   },
   {
     id: 'dsignrz',
@@ -42,29 +44,14 @@ export const EXPERIENCE: ExperienceItem[] = [
     dateRange: 'Mar 2021 – Present',
     location: 'Noida, India',
     description: [
-      'Founded a Web3 creative agency and delivered 200+ projects for crypto and startup clients.',
-      'Maintained an average 4.6, building strong client trust and repeat work.',
-      'Served global clients with 48% international client share, including projects for pump.fun, validators.com, cets.wtf, and cryptoclass.link.',
+      'Founded and scaled a creative agency to 200+ delivered projects as sole decision-maker across hiring, client negotiation, and delivery — building cross-functional teams and driving structured problem-solving under ambiguity.',
+      'Maintained a 4.6/5 client satisfaction rating by building structured account-management processes that drove repeat business.',
+      'Grew international client share to 48% of business, delivering projects for global crypto platforms including pump.fun, validators.com, cets.wtf, and cryptoclass.link.',
     ],
     domain: 'dsignrz.com',
     logoUrl: '/logos/dsignrs.jpg',
-    accent: '#8b5cf6',
-  },
-  {
-    id: 'buybit',
-    title: 'Founding Engineer',
-    company: 'BuyBit',
-    tagline: 'Telegram P2P trading bot (Russian market)',
-    dateRange: 'Jun 2025 – Aug 2025',
-    location: 'Remote',
-    description: [
-      'Built a Telegram-based P2P crypto trading bot designed for the Russian market.',
-      'Developed escrow integration to enable secure and conflict-free transactions between users.',
-      'Created a multilingual bot with a clean, simple, and user-friendly interface.',
-    ],
-    domain: 'telegram.org',
-    logoUrl: '/logos/buybit.jpg',
-    accent: '#22c55e',
+    accent: '#9945ff',
+    stat: '200+ projects',
   },
   {
     id: 'tradewiz',
@@ -74,12 +61,44 @@ export const EXPERIENCE: ExperienceItem[] = [
     dateRange: 'Sep 2024 – Jun 2025',
     location: 'Remote',
     description: [
-      'Closed 40+ influencer marketing deals that generated millions of dollars in trading volume.',
-      'Onboarded crypto influencers with a combined audience of 1.4M+ followers on Twitter.',
-      'Built long-term partnerships with well-known KOLs and YouTubers to grow platform adoption.',
+      'Closed 40+ influencer marketing partnerships, generating $4M+ in trading volume through direct relationship management.',
+      'Onboarded $5M+ in additional trading volume by designing and executing targeted growth campaigns.',
+      'Built and managed relationships with crypto influencers (1.4M+ combined followers) and partnered cross-functionally with marketing and product teams.',
     ],
     domain: 'tradewiz.com',
     logoUrl: '/logos/tradewiz.jpg',
-    accent: '#0ea5e9',
+    accent: '#38bdf8',
+    stat: '$4M+ volume',
+  },
+]
+
+/** Additional experience — smaller cards, not in the main timeline */
+export const ADDITIONAL_EXPERIENCE: ExperienceItem[] = [
+  {
+    id: 'youtube',
+    title: 'YouTube Creator',
+    company: 'Crypto & Web3 Content',
+    tagline: '5,000+ subscribers · 20+ brand integrations',
+    dateRange: 'Ongoing',
+    location: 'Remote',
+    description: [
+      'Built and scaled a crypto-focused YouTube channel to 5,000+ subscribers.',
+      'Secured 20+ brand integration deals with crypto and Web3 companies.',
+    ],
+    accent: '#f43f5e',
+    stat: '5K+ subs',
+  },
+  {
+    id: 'freelance',
+    title: 'Freelancer',
+    company: 'Independent Client Work',
+    tagline: 'Web, design & Web3 development',
+    dateRange: 'Ongoing',
+    location: 'Global',
+    description: [
+      'Delivered 500+ projects across 350+ clients spanning web, design, and Web3 development.',
+    ],
+    accent: '#fbbf24',
+    stat: '500+ projects',
   },
 ]

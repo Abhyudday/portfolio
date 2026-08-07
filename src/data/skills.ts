@@ -1,22 +1,38 @@
-export const SKILL_GROUPS: { title: string; items: string[] }[] = [
+export type SkillGroup = {
+  title: string
+  items: string[]
+}
+
+/** Ordered by emphasis: technical stack first, then business, then interests */
+export const SKILL_GROUPS: SkillGroup[] = [
   {
-    title: 'Languages/Frameworks',
-    items: ['JavaScript', 'TypeScript', 'Python', 'Rust', 'Solidity', 'HTML/CSS'],
+    title: 'Technical',
+    items: [
+      'JavaScript',
+      'TypeScript',
+      'Python',
+      'Rust',
+      'Solidity',
+      'PostgreSQL',
+      'Git',
+      'Docker',
+      'Tatum API',
+      'Birdeye',
+      'Solscan',
+    ],
   },
   {
-    title: 'Databases/APIs',
-    items: ['PostgreSQL', 'Tatum API', 'Birdeye', 'Solscan', 'Telegram API'],
+    title: 'Business',
+    items: [
+      'Strategic Partnerships',
+      'Business Development',
+      'Growth Strategy',
+      'Client & Stakeholder Management',
+      'Negotiation',
+    ],
   },
   {
-    title: 'Tools',
-    items: ['Git', 'Docker', 'Figma', 'VS Code', 'Linux'],
+    title: 'Interests',
+    items: ['Swimming', 'Music'],
   },
 ]
-
-export type SkillPillVariant = 'default' | 'feature' | 'live' | 'alert'
-
-const VARIANT_ORDER: SkillPillVariant[] = ['default', 'feature', 'live', 'alert']
-
-export function skillPillVariant(index: number): SkillPillVariant {
-  return VARIANT_ORDER[index % VARIANT_ORDER.length]!
-}

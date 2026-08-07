@@ -1,19 +1,22 @@
-/** Update these with your details */
 export const SITE = {
-  name: 'Abhyuday',
-  role: 'Developer',
-  location: 'Your city, country',
-  headline: "I'm Abhyuday.",
-  bio: 'Developer focused on reliable systems and thoughtful interfaces. Currently shipping product at your company.',
+  name: 'Abhyuday Pratap Singh',
+  shortName: 'Abhyuday',
+  role: 'Software Development Engineer',
+  location: 'Noida, India',
+  headline: 'Abhyuday Pratap Singh',
+  bio: 'Founder and business builder with hands-on experience scaling ventures from zero. Generated $9M+ in trading volume through business development and built a 200+ client global agency with a 4.6/5 satisfaction rating.',
   email: 'hi@abhyuday.site',
-  hireSubject: 'Hiring: let’s talk',
+  phone: '+91 9569689858',
+  website: 'https://abhyuday.site',
+  github: 'https://github.com/abhyudday',
+  hireSubject: 'Hiring: lets talk',
   year: new Date().getFullYear(),
 } as const
 
 export const SOCIAL = {
   x: 'https://x.com/abhyuddayy',
   instagram: 'https://instagram.com/abhyudday',
-  website: 'https://abhyudday.site',
+  website: 'https://abhyuday.site',
   linkedin: 'https://linkedin.com/in/abhyudday/',
 } as const
 
