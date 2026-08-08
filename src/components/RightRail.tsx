@@ -10,6 +10,7 @@ import { IconArrowUpRight, IconGlobe, IconSearch } from './Icons'
 /** Every image in the repo, each with an honest caption. */
 const GALLERY = [
   { src: MEDIA.banner, label: 'Profile banner', alt: 'Profile banner artwork' },
+  { src: MEDIA.cover, label: 'Cover art', alt: 'Cover artwork' },
   { src: MEDIA.avatar, label: SITE.shortName, alt: `${SITE.name} portrait` },
   { src: MEDIA.mark, label: 'Site mark', alt: 'Site brand mark' },
   ...EXPERIENCE.filter((job) => COMPANY_MEDIA[job.id]).map((job) => ({

@@ -232,6 +232,14 @@ export function IconArrowRight({ size = 14, className }: P) {
   )
 }
 
+export function IconChevronDown({ size = 14, className }: P) {
+  return (
+    <svg {...stroke(size, 2.2)} className={className}>
+      <path d="m5 9 7 7 7-7" />
+    </svg>
+  )
+}
+
 export function IconArrowLeft({ size = 20, className }: P) {
   return (
     <svg {...stroke(size, 2)} className={className}>

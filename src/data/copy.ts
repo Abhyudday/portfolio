@@ -4,9 +4,12 @@
  * #tags and URLs blue the way X does.
  */
 
-/** Profile bio — was the hero tagline. */
+/**
+ * Profile bio — was the hero tagline, rewritten to read the way someone actually
+ * writes their own bio. Same three numbers, plainer voice.
+ */
 export const BIO =
-  'I build crypto products and the businesses around them — a production fintech app serving **20,000+ users**, an agency that has shipped **700+ projects**, and **$9M+ in trading volume** driven through partnerships.'
+  'I build crypto products and the businesses around them. So far that is a fintech app in production with **20,000+ users**, **700+ projects** out the door at my agency, and **$9M+ in trading volume** from partnerships I set up myself.'
 
 /** Thread 01 — the three about paragraphs, in order. */
 export const ABOUT: string[] = [

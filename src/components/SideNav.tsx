@@ -68,15 +68,13 @@ export function SideNav({ active, onSearch, theme, onToggleTheme }: Props) {
           </li>
         </ul>
 
-        <a
-          className="btn btn-primary rail-post"
-          href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
-        >
-          <span className="rail-post-long">Get in touch</span>
+        <a className="btn btn-primary rail-post" href="#contact">
+          <span className="rail-post-long">Hire me</span>
           <span className="rail-post-short" aria-hidden="true">
             <IconMail size={20} />
           </span>
         </a>
+
 
         <div className="rail-foot">
           <button

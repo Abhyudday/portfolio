@@ -6,6 +6,7 @@ import { THREADS } from '../data/sections'
 import { COMPANY_MEDIA, WORK_MEDIA } from '../data/media'
 import { ABOUT, ALSO_RUNNING, CLIENTS_HEADING, CONTACT } from '../data/copy'
 import { SITE, SOCIAL } from '../config'
+import { HireMenu } from './HireMenu'
 import { Post } from './Post'
 import { LinkCard } from './LinkCard'
 import { RichText } from './RichText'
@@ -278,14 +279,7 @@ export function ThreadContact() {
         <p className="post-text">{CONTACT.sub}</p>
 
         <div className="contact-actions">
-          <a
-            className="btn btn-primary"
-            href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <IconMail size={15} />
-            {SITE.email}
-          </a>
+          <HireMenu label="Hire me" />
           <a
             className="btn"
             href={SITE.github}
@@ -300,6 +294,14 @@ export function ThreadContact() {
         </div>
 
         <ul className="contact-links">
+          <li>
+            <a
+              href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <IconMail size={14} /> {SITE.email}
+            </a>
+          </li>
           <li>
             <a href={SOCIAL.x} target="_blank" rel="noreferrer">
               <IconX size={14} /> X

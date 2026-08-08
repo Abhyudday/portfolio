@@ -184,7 +184,7 @@
 }
 
 .badge {
-  color: var(--blue);
+  color: var(--green);
   flex: none;
 }
 
@@ -1016,6 +1016,72 @@ button.act-pink:hover .act-ring {
 .btn-ghost {
   width: 36px;
   padding: 0;
+}
+
+/* ============================================================
+   Hire menu
+   ============================================================ */
+
+.hire {
+  position: relative;
+}
+.hire-caret {
+  transition: transform 0.15s;
+}
+.hire-caret.is-open {
+  transform: rotate(180deg);
+}
+
+.hire-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 260px;
+  padding: 6px 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  animation: hire-in 0.14s ease-out;
+}
+@keyframes hire-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.hire-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  color: var(--text);
+  transition: background 0.15s;
+}
+.hire-item:hover,
+.hire-item:focus-visible {
+  background: var(--bg-hover);
+}
+.hire-item-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.hire-item-label {
+  font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.hire-item-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.hire-item svg {
+  flex: none;
+  color: var(--text-muted);
 }
 
 /* ============================================================

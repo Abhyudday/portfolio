@@ -2,6 +2,7 @@ import { PROFILE, SITE, SOCIAL } from '../config'
 import { MEDIA } from '../data/media'
 import { BIO } from '../data/copy'
 import { STATS } from '../data/stats'
+import { HireMenu } from './HireMenu'
 import { RichText } from './RichText'
 import {
   IconArrowUpRight,
@@ -38,12 +39,7 @@ export function ProfileHeader() {
             <IconX size={14} />
             <span className="sr-only">Open X profile</span>
           </a>
-          <a
-            className="btn btn-primary"
-            href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
-          >
-            Hire me
-          </a>
+          <HireMenu />
         </div>
       </div>
 
