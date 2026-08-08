@@ -58,29 +58,11 @@
   overflow-x: hidden;
 }
 
-.brand {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin: 2px 0 4px;
-  border-radius: 99px;
-  transition: background 0.15s;
-}
-.brand:hover {
-  background: var(--bg-hover);
-}
-.brand img {
-  width: 34px;
-  height: 34px;
-  border-radius: 99px;
-  object-fit: cover;
-}
-
 .rail-nav {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin-top: 8px;
 }
 
 .rail-link {
@@ -184,7 +166,7 @@
 }
 
 .badge {
-  color: var(--green);
+  color: var(--text-muted);
   flex: none;
 }
 

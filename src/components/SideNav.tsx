@@ -36,10 +36,6 @@ export function SideNav({ active, onSearch, theme, onToggleTheme }: Props) {
   return (
     <nav className="rail-left" aria-label="Sections">
       <div className="rail-left-inner">
-        <a className="brand" href="#top" aria-label={SITE.name}>
-          <img src={MEDIA.mark} alt="" width={40} height={40} />
-        </a>
-
         <ul className="rail-nav">
           {RAIL.map(({ id, label, Icon }) => (
             <li key={id}>
