@@ -1,124 +1,129 @@
 import { useCallback, useEffect, useState } from 'react'
-import { SITE } from './config'
 import { WORKS } from './data/works'
-import { Ambient } from './components/Ambient'
-import { Nav } from './components/Nav'
-import { Hero } from './components/Hero'
-import { Stats } from './components/Stats'
-import { Section } from './components/Section'
-import { About } from './components/About'
-import { Record } from './components/Record'
-import { Missions } from './components/Missions'
-import { Briefing } from './components/Briefing'
-import { Loadout } from './components/Loadout'
-import { Education } from './components/Education'
-import { Footer } from './components/Footer'
-import { Cheats } from './components/Cheats'
-import { Reveal } from './components/Reveal'
-import { IconArrowRight, IconMail } from './components/Icons'
+import { THREADS } from './data/sections'
+import { ProfileHeader } from './components/ProfileHeader'
+import { SideNav, MobileBar, FeedHeader } from './components/SideNav'
+import { RightRail } from './components/RightRail'
+import { PostDetail } from './components/PostDetail'
+import { Palette } from './components/Palette'
+import {
+  PinnedStats,
+  ThreadAbout,
+  ThreadContact,
+  ThreadEducation,
+  ThreadLoadout,
+  ThreadMissions,
+  ThreadRecord,
+} from './components/Threads'
 import './App.css'
 
-export default function App() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [cheats, setCheats] = useState(false)
+type Theme = 'dark' | 'light'
 
-  /** ⌘K / Ctrl+K toggles the cheat-code palette. */
+export default function App() {
+  const [openId, setOpenId] = useState<string | null>(null)
+  const [search, setSearch] = useState(false)
+  const [active, setActive] = useState<string>(THREADS[0].id)
+  const [theme, setTheme] = useState<Theme>('dark')
+
+  /** ⌘K / Ctrl+K toggles search. */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        setCheats((v) => !v)
+        setSearch((v) => !v)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  const closeBriefing = useCallback(() => setOpenIndex(null), [])
-  const closeCheats = useCallback(() => setCheats(false), [])
-  const openCheats = useCallback(() => setCheats(true), [])
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
+
+  /** Highlight the thread currently under the top of the viewport. */
+  useEffect(() => {
+    const els = THREADS.map((t) => document.getElementById(t.id)).filter(
+      (el): el is HTMLElement => el !== null,
+    )
+    if (!els.length) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
+        if (hit) setActive(hit.target.id)
+      },
+      { rootMargin: '-72px 0px -55% 0px', threshold: 0 },
+    )
+
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+
+  const closeDetail = useCallback(() => setOpenId(null), [])
+  const closeSearch = useCallback(() => setSearch(false), [])
+  const openSearch = useCallback(() => setSearch(true), [])
+  const toggleTheme = useCallback(() => setTheme((t) => (t === 'dark' ? 'light' : 'dark')), [])
+
+  const openIndex = openId === null ? -1 : WORKS.findIndex((w) => w.id === openId)
 
   return (
     <>
-      <Ambient />
+      <a className="skip" href="#feed">
+        Skip to content
+      </a>
 
-      <div className="page">
-        <Nav onCheat={openCheats} />
+      <div className="shell" id="top">
+        <SideNav
+          active={active}
+          onSearch={openSearch}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
 
-        <Hero />
+        <main className="feed" id="feed">
+          <FeedHeader active={active} onSearch={openSearch} />
 
-        <Reveal>
-          <Stats />
-        </Reveal>
+          <ProfileHeader />
 
-        <Reveal>
-          <Section id="about" no="01" title="The bio" note="Who you are dealing with">
-            <About />
-          </Section>
-        </Reveal>
+          <nav className="tabs" aria-label="Threads">
+            {THREADS.map((t) => (
+              <a
+                key={t.id}
+                href={`#${t.id}`}
+                className={`tab${active === t.id ? ' is-active' : ''}`}
+                aria-current={active === t.id ? 'true' : undefined}
+              >
+                <span>{t.title}</span>
+              </a>
+            ))}
+          </nav>
 
-        <Reveal>
-          <Section id="record" no="02" title="Rap sheet" note="Roles on record">
-            <Record />
-          </Section>
-        </Reveal>
+          <PinnedStats />
+          <ThreadAbout />
+          <ThreadRecord />
+          <ThreadMissions onOpen={setOpenId} />
+          <ThreadLoadout />
+          <ThreadEducation />
+          <ThreadContact />
 
-        <Reveal>
-          <Section id="missions" no="03" title="Missions" note={`${WORKS.length} completed`}>
-            <Missions onOpen={setOpenIndex} />
-          </Section>
-        </Reveal>
+          <p className="feed-end">You have reached the end of the timeline.</p>
+        </main>
 
-        <Reveal>
-          <Section id="loadout" no="04" title="Loadout" note="Tools of the trade">
-            <Loadout />
-          </Section>
-        </Reveal>
-
-        <Reveal>
-          <Section id="education" no="05" title="Training" note="Where it started">
-            <Education />
-          </Section>
-        </Reveal>
-
-        <Reveal>
-          <Section id="contact" no="06" title="Safehouse" note="Open for work">
-            <div className="contact">
-              <p className="contact__kicker">Available for new missions</p>
-              <p className="contact__mark">
-                Got something worth <em>building</em>?
-              </p>
-              <p className="contact__sub">
-                Product work, Web3 builds, or partnerships — send the brief and I will tell you
-                straight whether I am the right person for it.
-              </p>
-              <div className="contact__row">
-                <a
-                  className="btn btn--primary"
-                  href={`mailto:${SITE.email}?subject=${encodeURIComponent(SITE.hireSubject)}`}
-                >
-                  <IconMail size={14} />
-                  {SITE.email}
-                </a>
-                <a className="btn btn--ghost" href={SITE.github} target="_blank" rel="noreferrer">
-                  See the code
-                  <IconArrowRight />
-                </a>
-              </div>
-            </div>
-          </Section>
-        </Reveal>
-
-        <Footer />
+        <RightRail onSearch={openSearch} />
       </div>
 
-      <Briefing
-        project={openIndex === null ? null : (WORKS[openIndex] ?? null)}
-        index={openIndex ?? 0}
-        onClose={closeBriefing}
+      <MobileBar active={active} onSearch={openSearch} />
+
+      <PostDetail
+        project={openIndex < 0 ? null : (WORKS[openIndex] ?? null)}
+        index={openIndex < 0 ? 0 : openIndex}
+        onClose={closeDetail}
       />
 
-      {cheats ? <Cheats onClose={closeCheats} /> : null}
+      {search ? <Palette onClose={closeSearch} /> : null}
     </>
   )
 }

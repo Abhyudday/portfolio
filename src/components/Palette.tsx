@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SITE, SOCIAL } from '../config'
 import { WORKS } from '../data/works'
-import { SECTIONS } from '../data/sections'
+import { EXPERIENCE } from '../data/experience'
+import { SKILL_GROUPS } from '../data/skills'
+import { THREADS } from '../data/sections'
+import { IconArrowUpRight, IconClose, IconSearch } from './Icons'
 
-export type CheatEntry = {
-  code: string
+export type Entry = {
   label: string
   kind: string
+  hint?: string
+  external?: boolean
   run: () => void
 }
-
-type Props = { onClose: () => void }
 
 const go = (id: string) => () => {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -18,31 +20,46 @@ const go = (id: string) => () => {
 
 const open = (url: string) => () => window.open(url, '_blank', 'noopener,noreferrer')
 
-export function Cheats({ onClose }: Props) {
+/** X's search overlay, standing in for the old cheat-code palette. */
+export function Palette({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState('')
   const [sel, setSel] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
 
-  const entries = useMemo<CheatEntry[]>(
+  const entries = useMemo<Entry[]>(
     () => [
-      ...SECTIONS.map((s) => ({
-        code: `GO${s.label.slice(0, 3).toUpperCase()}`,
-        label: s.label,
-        kind: 'Jump',
-        run: go(s.id),
+      ...THREADS.map((t) => ({
+        label: t.title,
+        kind: 'Thread',
+        hint: t.note,
+        run: go(t.id),
       })),
       ...WORKS.map((w) => ({
-        code: 'LAUNCH',
         label: w.name,
         kind: 'Mission',
+        hint: w.platform,
+        external: true,
         run: open(w.url),
       })),
-      { code: 'HITMEUP', label: SITE.email, kind: 'Contact', run: open(`mailto:${SITE.email}`) },
-      { code: 'GITGUD', label: 'GitHub', kind: 'Social', run: open(SITE.github) },
-      { code: 'POSTUP', label: 'X / Twitter', kind: 'Social', run: open(SOCIAL.x) },
-      { code: 'SUITUP', label: 'LinkedIn', kind: 'Social', run: open(SOCIAL.linkedin) },
-      { code: 'SNAPSHOT', label: 'Instagram', kind: 'Social', run: open(SOCIAL.instagram) },
+      ...EXPERIENCE.map((job) => ({
+        label: `${job.title} · ${job.company}`,
+        kind: 'Role',
+        hint: job.dateRange,
+        run: go('record'),
+      })),
+      ...SKILL_GROUPS.flatMap((group) =>
+        group.items.map((item) => ({
+          label: item,
+          kind: group.title,
+          run: go('loadout'),
+        })),
+      ),
+      { label: SITE.email, kind: 'Contact', external: true, run: open(`mailto:${SITE.email}`) },
+      { label: 'GitHub', kind: 'Social', external: true, run: open(SITE.github) },
+      { label: 'X / Twitter', kind: 'Social', external: true, run: open(SOCIAL.x) },
+      { label: 'LinkedIn', kind: 'Social', external: true, run: open(SOCIAL.linkedin) },
+      { label: 'Instagram', kind: 'Social', external: true, run: open(SOCIAL.instagram) },
     ],
     [],
   )
@@ -51,7 +68,7 @@ export function Cheats({ onClose }: Props) {
     const needle = q.trim().toLowerCase()
     if (!needle) return entries
     return entries.filter((e) =>
-      `${e.code} ${e.label} ${e.kind}`.toLowerCase().includes(needle),
+      `${e.label} ${e.kind} ${e.hint ?? ''}`.toLowerCase().includes(needle),
     )
   }, [entries, q])
 
@@ -63,7 +80,6 @@ export function Cheats({ onClose }: Props) {
     }
   }, [])
 
-  // Keep the highlighted row inside the scroll viewport.
   useEffect(() => {
     listRef.current?.children[sel]?.scrollIntoView({ block: 'nearest' })
   }, [sel])
@@ -89,63 +105,66 @@ export function Cheats({ onClose }: Props) {
 
   return (
     <div
-      className="cheat"
+      className="palette"
       role="presentation"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="cheat__box"
+        className="palette-box"
         role="dialog"
         aria-modal="true"
-        aria-label="Cheat codes"
+        aria-label="Search"
         onKeyDown={onKeyDown}
       >
-        <div className="cheat__top">
-          <span className="cheat__caret" aria-hidden="true">
-            &gt;
-          </span>
+        <div className="palette-top">
+          <IconSearch size={19} />
           <input
             ref={inputRef}
-            className="cheat__input"
+            className="palette-input"
             value={q}
             onChange={(e) => {
               setQ(e.target.value)
               setSel(0)
             }}
-            placeholder="Enter cheat code"
-            aria-label="Search cheat codes"
+            placeholder="Search threads, missions, stack"
+            aria-label="Search"
             autoComplete="off"
             spellCheck={false}
           />
-          <span className="cheat__esc">Esc</span>
+          <button type="button" className="palette-x" onClick={onClose} aria-label="Close search">
+            <IconClose size={14} />
+          </button>
         </div>
 
-        <div className="cheat__list" ref={listRef}>
+        <div className="palette-list" ref={listRef}>
           {results.length === 0 ? (
-            <p className="cheat__empty">Code not recognised</p>
+            <p className="palette-empty">No results for “{q.trim()}”</p>
           ) : (
             results.map((e, i) => (
               <button
-                key={`${e.code}-${e.label}`}
+                key={`${e.kind}-${e.label}`}
                 type="button"
-                className={i === sel ? 'cheat__item is-sel' : 'cheat__item'}
+                className={i === sel ? 'palette-item is-sel' : 'palette-item'}
                 onMouseEnter={() => setSel(i)}
                 onClick={() => {
                   e.run()
                   onClose()
                 }}
               >
-                <span className="cheat__code">{e.code}</span>
-                <span className="cheat__lab">{e.label}</span>
-                <span className="cheat__kind">{e.kind}</span>
+                <span className="palette-item-text">
+                  <span className="palette-label">{e.label}</span>
+                  {e.hint ? <span className="palette-hint">{e.hint}</span> : null}
+                </span>
+                <span className="palette-kind">{e.kind}</span>
+                {e.external ? <IconArrowUpRight size={13} /> : null}
               </button>
             ))
           )}
         </div>
 
-        <div className="cheat__foot">
+        <div className="palette-foot">
           <span>↑↓ Select</span>
-          <span>↵ Activate</span>
+          <span>↵ Open</span>
           <span>Esc Close</span>
         </div>
       </div>
