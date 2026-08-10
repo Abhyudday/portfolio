@@ -1,16 +1,16 @@
 import { CLIENTS_HEADING } from '../data/copy'
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { CLIENTS, EDUCATION } from '../data/stats'
 import { SectionTitle } from './SectionTitle'
 
-const thread = THREADS[4]
+const section = SECTIONS[4]
 
-/** Thread 05 — training, and who the work went out to. */
+/** Section 05 — education, and who the work went out to. */
 export function Education() {
   return (
-    <section className="section" id={thread.id}>
-      <SectionTitle no={thread.no} note={thread.note}>
-        {thread.title}
+    <section className="section" id={section.id}>
+      <SectionTitle no={section.no} note={section.note}>
+        {section.title}
       </SectionTitle>
 
       <div className="panel edu">

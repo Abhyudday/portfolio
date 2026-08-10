@@ -1,26 +1,21 @@
-import { MEDIA, WORK_MEDIA } from '../data/media'
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { WORKS } from '../data/works'
 import { IconArrowUpRight, IconTarget } from './Icons'
 import { SectionTitle } from './SectionTitle'
 
-const thread = THREADS[2]
+const section = SECTIONS[2]
 
-/** Thread 03 — shipped work. */
+/** Section 03 — shipped work. */
 export function Projects() {
   return (
-    <section className="section" id={thread.id}>
-      <SectionTitle no={thread.no} note={thread.note}>
-        {thread.title}
+    <section className="section" id={section.id}>
+      <SectionTitle no={section.no} note={section.note}>
+        {section.title}
       </SectionTitle>
 
       <ul className="project-grid">
         {WORKS.map((w) => (
           <li className="project-card" key={w.id}>
-            <div className="project-banner">
-              <img src={WORK_MEDIA[w.id] ?? MEDIA.cover} alt="" loading="lazy" />
-            </div>
-
             <div className="project-body">
               <div className="project-head">
                 <h3 className="project-name">{w.name}</h3>

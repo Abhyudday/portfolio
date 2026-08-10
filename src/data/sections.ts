@@ -1,28 +1,20 @@
-export const SECTIONS = [
-  { id: 'about', label: 'Bio' },
-  { id: 'record', label: 'Record' },
-  { id: 'missions', label: 'Missions' },
-  { id: 'loadout', label: 'Loadout' },
-  { id: 'contact', label: 'Contact' },
-] as const
-
-export type ThreadMeta = {
+export type SectionMeta = {
   id: string
-  /** Thread number, shown as the opening marker */
+  /** Section number, shown as the opening marker */
   no: string
   title: string
   note: string
 }
 
 /**
- * One thread per section. Titles and notes carry over verbatim from the
- * previous section headers so none of the copy is lost.
+ * One entry per section, in page order. `id` doubles as the anchor target and
+ * the IntersectionObserver key, so it matches the title people actually read.
  */
-export const THREADS: ThreadMeta[] = [
-  { id: 'about', no: '01', title: 'The bio', note: 'Who you are dealing with' },
-  { id: 'record', no: '02', title: 'Rap sheet', note: 'Roles on record' },
-  { id: 'missions', no: '03', title: 'Missions', note: 'completed' },
-  { id: 'loadout', no: '04', title: 'Loadout', note: 'Tools of the trade' },
-  { id: 'education', no: '05', title: 'Training', note: 'Where it started' },
-  { id: 'contact', no: '06', title: 'Safehouse', note: 'Open for work' },
+export const SECTIONS: SectionMeta[] = [
+  { id: 'about', no: '01', title: 'About', note: 'Who you are dealing with' },
+  { id: 'experience', no: '02', title: 'Experience', note: 'Roles on record' },
+  { id: 'projects', no: '03', title: 'Projects', note: 'Selected work' },
+  { id: 'skills', no: '04', title: 'Skills', note: 'Tools of the trade' },
+  { id: 'education', no: '05', title: 'Education', note: 'Where it started' },
+  { id: 'contact', no: '06', title: 'Contact', note: 'Open for work' },
 ]

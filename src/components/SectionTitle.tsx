@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 type Props = {
-  /** Thread number, shown as the opening marker */
+  /** Section number, shown as the opening marker */
   no?: string
   /** Short qualifier set to the right of the title */
   note?: string

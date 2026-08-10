@@ -1,6 +1,6 @@
 import { SITE } from '../config'
 import { MEDIA } from '../data/media'
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { IconGitHub } from './Icons'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   active: string
 }
 
-/** Sticky blurred top bar: brand mark, thread links, GitHub pill. */
+/** Sticky blurred top bar: brand mark, section links, GitHub pill. */
 export function Navbar({ active }: Props) {
   return (
     <nav className="nav" aria-label="Sections">
@@ -19,7 +19,7 @@ export function Navbar({ active }: Props) {
         </a>
 
         <ul className="nav-links">
-          {THREADS.map((t) => (
+          {SECTIONS.map((t) => (
             <li key={t.id}>
               <a
                 className={active === t.id ? 'nav-link is-active' : 'nav-link'}

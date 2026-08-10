@@ -1,18 +1,18 @@
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { SKILL_GROUPS } from '../data/skills'
 import { SectionTitle } from './SectionTitle'
 
-const thread = THREADS[3]
+const section = SECTIONS[3]
 
 /** Enough copies to fill the track no matter how short the group is. */
 const COPIES = 4
 
-/** Thread 04 — the loadout, one scrolling row per group. */
+/** Section 04 — skills, one scrolling row per group. */
 export function Skills() {
   return (
-    <section className="section" id={thread.id}>
-      <SectionTitle no={thread.no} note={thread.note}>
-        {thread.title}
+    <section className="section" id={section.id}>
+      <SectionTitle no={section.no} note={section.note}>
+        {section.title}
       </SectionTitle>
 
       <div className="panel skills">

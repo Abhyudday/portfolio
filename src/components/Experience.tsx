@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { ALSO_RUNNING } from '../data/copy'
 import { ADDITIONAL_EXPERIENCE, EXPERIENCE, type ExperienceItem } from '../data/experience'
 import { COMPANY_MEDIA } from '../data/media'
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { IconCalendar, IconChevronDown, IconLocation } from './Icons'
 import { SectionTitle } from './SectionTitle'
 
-const thread = THREADS[1]
+const section = SECTIONS[1]
 
 /** Roles still running read as active; everything else is on record. */
 const statusOf = (item: ExperienceItem) =>
@@ -79,14 +79,14 @@ function ExperienceCard({ item, isExpanded, onToggle }: CardProps) {
   )
 }
 
-/** Thread 02 — the timeline, plus the parallel tracks underneath. */
+/** Section 02 — the role timeline, plus the parallel tracks underneath. */
 export function Experience() {
   const [expandedIdx, setExpandedIdx] = useState(0)
 
   return (
-    <section className="section" id={thread.id}>
-      <SectionTitle no={thread.no} note={thread.note}>
-        {thread.title}
+    <section className="section" id={section.id}>
+      <SectionTitle no={section.no} note={section.note}>
+        {section.title}
       </SectionTitle>
 
       <ul className="xp-timeline">

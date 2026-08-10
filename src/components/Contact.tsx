@@ -1,6 +1,6 @@
 import { PROFILE, SITE, SOCIAL } from '../config'
 import { CONTACT } from '../data/copy'
-import { THREADS } from '../data/sections'
+import { SECTIONS } from '../data/sections'
 import { HireMenu } from './HireMenu'
 import {
   IconGitHub,
@@ -13,7 +13,7 @@ import {
 import { RichText } from './RichText'
 import { SectionTitle } from './SectionTitle'
 
-const thread = THREADS[5]
+const section = SECTIONS[5]
 
 const LINKS = [
   { label: SITE.email, url: `mailto:${SITE.email}`, icon: <IconMail size={14} />, external: false },
@@ -27,12 +27,12 @@ const LINKS = [
   },
 ]
 
-/** Thread 06 — the safehouse. */
+/** Section 06 — how to get in touch. */
 export function Contact() {
   return (
-    <section className="section" id={thread.id}>
-      <SectionTitle no={thread.no} note={thread.note}>
-        {thread.title}
+    <section className="section" id={section.id}>
+      <SectionTitle no={section.no} note={section.note}>
+        {section.title}
       </SectionTitle>
 
       <div className="panel contact">

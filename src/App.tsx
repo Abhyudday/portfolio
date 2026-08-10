@@ -8,15 +8,15 @@ import { Hero } from './components/Hero'
 import { Navbar } from './components/Navbar'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
-import { THREADS } from './data/sections'
+import { SECTIONS } from './data/sections'
 import './App.css'
 
 export default function App() {
-  const [active, setActive] = useState<string>(THREADS[0].id)
+  const [active, setActive] = useState<string>(SECTIONS[0].id)
 
-  /** Highlight the thread currently under the top of the viewport. */
+  /** Highlight the section currently under the top of the viewport. */
   useEffect(() => {
-    const els = THREADS.map((t) => document.getElementById(t.id)).filter(
+    const els = SECTIONS.map((t) => document.getElementById(t.id)).filter(
       (el): el is HTMLElement => el !== null,
     )
     if (!els.length) return
